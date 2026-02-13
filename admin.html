@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Bookie</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <p>📚 Admin Dashboard | Manage Orders & Customers</p>
+        </div>
+        
+        <div class="header-main">
+            <div class="header-container">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">📖</span>
+                    <span>Bookie Admin</span>
+                </a>
+                
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="order-search" 
+                        placeholder="Search orders by ID, customer name, or email..."
+                        autocomplete="off"
+                    >
+                    <button class="search-btn" onclick="searchOrders()" title="Search">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="header-btn" id="auth-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="nav">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="books.html" class="nav-link">Browse Books</a></li>
+                    <li><a href="admin.html" class="nav-link active">Admin Dashboard</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-page">
+        <div class="admin-container">
+            <h1 class="page-title">Order Management</h1>
+            
+            <!-- Stats Cards -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #EFF6FF; color: #2563EB;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <p class="stat-label">Total Orders</p>
+                        <p class="stat-value" id="total-orders">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #FEF3C7; color: #F59E0B;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <p class="stat-label">Pending Orders</p>
+                        <p class="stat-value" id="pending-orders">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #D1FAE5; color: #10B981;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <p class="stat-label">Completed Orders</p>
+                        <p class="stat-value" id="completed-orders">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #EFF6FF; color: #2563EB;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <p class="stat-label">Total Revenue</p>
+                        <p class="stat-value" id="total-revenue">$0.00</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filters -->
+            <div class="admin-filters">
+                <button class="filter-btn active" onclick="filterOrders('all')">All Orders</button>
+                <button class="filter-btn" onclick="filterOrders('pending')">Pending</button>
+                <button class="filter-btn" onclick="filterOrders('processing')">Processing</button>
+                <button class="filter-btn" onclick="filterOrders('shipped')">Shipped</button>
+                <button class="filter-btn" onclick="filterOrders('delivered')">Delivered</button>
+            </div>
+            
+            <!-- Orders Table -->
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Email</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-table-body">
+                        <tr>
+                            <td colspan="8" class="loading-cell">Loading orders...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="modal-close" onclick="closeOrderModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="order-detail-content">
+                <!-- Order details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Bookie</h3>
+                <p>Your trusted online bookstore for discovering and purchasing books across all genres.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="books.html">Browse Books</a></li>
+                    <li><a href="cart.html">Shopping Cart</a></li>
+                    <li><a href="auth.html">My Account</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li><a href="books.html?category=Fiction">Fiction</a></li>
+                    <li><a href="books.html?category=Non-Fiction">Non-Fiction</a></li>
+                    <li><a href="books.html?category=Science">Science</a></li>
+                    <li><a href="books.html?category=History">History</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Bookie. All rights reserved. Built with ❤️ for book lovers.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/books-api.js"></script>
+    <script src="js/admin.js"></script>
+    
+    <script>
+        let allOrders = [];
+        let currentFilter = 'all';
+        
+        async function initAdmin() {
+            const user = firebase.auth().currentUser;
+            if (!user) {
+                window.location.href = 'auth.html';
+                return;
+            }
+            
+            const isAdmin = await checkAdminRole(user.uid);
+            if (!isAdmin) {
+                alert('Access denied. Admin privileges required.');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            await loadOrders();
+        }
+        
+        async function loadOrders() {
+            allOrders = await getAllOrders();
+            updateStats();
+            renderOrders();
+        }
+        
+        function updateStats() {
+            const total = allOrders.length;
+            const pending = allOrders.filter(o => o.status === 'pending').length;
+            const completed = allOrders.filter(o => o.status === 'delivered').length;
+            const revenue = allOrders.reduce((sum, o) => sum + o.total, 0);
+            
+            document.getElementById('total-orders').textContent = total;
+            document.getElementById('pending-orders').textContent = pending;
+            document.getElementById('completed-orders').textContent = completed;
+            document.getElementById('total-revenue').textContent = formatPrice(revenue);
+        }
+        
+        function filterOrders(status) {
+            currentFilter = status;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderOrders();
+        }
+        
+        function renderOrders() {
+            const tbody = document.getElementById('orders-table-body');
+            
+            let filtered = currentFilter === 'all' 
+                ? allOrders 
+                : allOrders.filter(o => o.status === currentFilter);
+            
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-cell">No orders found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = filtered.map(order => `
+                <tr>
+                    <td><strong>${order.id.substring(0, 8)}</strong></td>
+                    <td>${order.shippingInfo.firstName} ${order.shippingInfo.lastName}</td>
+                    <td>${order.shippingInfo.email}</td>
+                    <td>${order.items.length} items</td>
+                    <td>${formatPrice(order.total)}</td>
+                    <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                    <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn-action" onclick="viewOrder('${order.id}')">View</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function searchOrders() {
+            const query = document.getElementById('order-search').value.toLowerCase();
+            
+            if (!query) {
+                renderOrders();
+                return;
+            }
+            
+            const tbody = document.getElementById('orders-table-body');
+            const filtered = allOrders.filter(order => 
+                order.id.toLowerCase().includes(query) ||
+                order.shippingInfo.firstName.toLowerCase().includes(query) ||
+                order.shippingInfo.lastName.toLowerCase().includes(query) ||
+                order.shippingInfo.email.toLowerCase().includes(query)
+            );
+            
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-cell">No orders found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = filtered.map(order => `
+                <tr>
+                    <td><strong>${order.id.substring(0, 8)}</strong></td>
+                    <td>${order.shippingInfo.firstName} ${order.shippingInfo.lastName}</td>
+                    <td>${order.shippingInfo.email}</td>
+                    <td>${order.items.length} items</td>
+                    <td>${formatPrice(order.total)}</td>
+                    <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                    <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn-action" onclick="viewOrder('${order.id}')">View</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        document.getElementById('order-search').addEventListener('input', searchOrders);
+        
+        function viewOrder(orderId) {
+            const order = allOrders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const content = document.getElementById('order-detail-content');
+            content.innerHTML = `
+                <div class="order-detail">
+                    <div class="order-detail-section">
+                        <h3>Order Information</h3>
+                        <p><strong>Order ID:</strong> ${order.id}</p>
+                        <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+                        <p><strong>Status:</strong> <span class="status-badge status-${order.status}">${order.status}</span></p>
+                    </div>
+                    
+                    <div class="order-detail-section">
+                        <h3>Customer Information</h3>
+                        <p><strong>Name:</strong> ${order.shippingInfo.firstName} ${order.shippingInfo.lastName}</p>
+                        <p><strong>Email:</strong> ${order.shippingInfo.email}</p>
+                        <p><strong>Phone:</strong> ${order.shippingInfo.phone}</p>
+                    </div>
+                    
+                    <div class="order-detail-section">
+                        <h3>Shipping Address</h3>
+                        <p>${order.shippingInfo.address}</p>
+                        <p>${order.shippingInfo.city}, ${order.shippingInfo.state} ${order.shippingInfo.zipCode}</p>
+                        <p>${order.shippingInfo.country}</p>
+                    </div>
+                    
+                    <div class="order-detail-section">
+                        <h3>Order Items</h3>
+                        ${order.items.map(item => `
+                            <div class="order-detail-item">
+                                <img src="${item.thumbnail}" alt="${item.title}" onerror="this.onerror=null; this.src='https://placehold.co/80x120/2563EB/FFFFFF?text=No+Cover'">
+                                <div>
+                                    <p><strong>${item.title}</strong></p>
+                                    <p>by ${item.authors.join(', ')}</p>
+                                    <p>Quantity: ${item.quantity} × ${formatPrice(item.price)}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="order-detail-section">
+                        <h3>Order Summary</h3>
+                        <p><strong>Subtotal:</strong> ${formatPrice(order.subtotal)}</p>
+                        <p><strong>Shipping:</strong> ${formatPrice(order.shipping)}</p>
+                        <p><strong>Tax:</strong> ${formatPrice(order.tax)}</p>
+                        <p class="order-total"><strong>Total:</strong> ${formatPrice(order.total)}</p>
+                    </div>
+                    
+                    <div class="order-detail-actions">
+                        <label for="status-select">Update Status:</label>
+                        <select id="status-select" class="status-select">
+                            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
+                            <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="updateOrderStatus('${order.id}')">Update Status</button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('order-modal').style.display = 'flex';
+        }
+        
+        function closeOrderModal() {
+            document.getElementById('order-modal').style.display = 'none';
+        }
+        
+        async function updateOrderStatus(orderId) {
+            const newStatus = document.getElementById('status-select').value;
+            await updateStatus(orderId, newStatus);
+            closeOrderModal();
+            await loadOrders();
+        }
+        
+        document.addEventListener('DOMContentLoaded', initAdmin);
+    </script>
+</body>
+</html>

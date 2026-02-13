@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookie - Your Online Bookstore</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <p>📚 Free shipping on orders over $50 | 🎉 New arrivals every week</p>
+        </div>
+        
+        <div class="header-main">
+            <div class="header-container">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">📖</span>
+                    <span>Bookie</span>
+                </a>
+                
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="main-search" 
+                        placeholder="Search for books, authors, ISBN..."
+                        autocomplete="off"
+                    >
+                    <button class="search-btn" onclick="performSearch()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="header-btn" id="auth-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>Login</span>
+                    </button>
+                    
+                    <button class="header-btn cart-icon" onclick="window.location.href='cart.html'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Cart</span>
+                        <span id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="nav">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link active">Home</a></li>
+                    <li><a href="books.html" class="nav-link">Browse Books</a></li>
+                    <li><a href="books.html?category=Fiction" class="nav-link">Fiction</a></li>
+                    <li><a href="books.html?category=Non-Fiction" class="nav-link">Non-Fiction</a></li>
+                    <li><a href="books.html?category=Science" class="nav-link">Science</a></li>
+                    <li><a href="#" class="nav-link" id="admin-link" style="display: none;">Admin</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover Your Next Great Read</h1>
+            <p>Explore thousands of books across all genres. From bestsellers to hidden gems, find your perfect book today.</p>
+            <div class="hero-cta">
+                <button class="btn btn-primary btn-lg" onclick="window.location.href='books.html'">
+                    Browse Collection
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+                <button class="btn btn-outline btn-lg" onclick="scrollToSection('featured')">
+                    Featured Books
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Browse by Category</h2>
+            <div class="categories-scroll" id="categories-container">
+                <!-- Categories will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Books -->
+    <section class="books-section" id="featured">
+        <div class="container">
+            <h2 class="section-title">Featured Books</h2>
+            <div class="books-grid" id="featured-books">
+                <!-- Loading skeleton -->
+                <div class="loading">Loading featured books...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals -->
+    <section class="books-section">
+        <div class="container">
+            <h2 class="section-title">New Arrivals</h2>
+            <div class="books-grid" id="new-arrivals">
+                <!-- Loading skeleton -->
+                <div class="loading">Loading new arrivals...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Bookie</h3>
+                <p>Your trusted online bookstore for discovering and purchasing books across all genres.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="books.html">Browse Books</a></li>
+                    <li><a href="cart.html">Shopping Cart</a></li>
+                    <li><a href="auth.html">My Account</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li><a href="books.html?category=Fiction">Fiction</a></li>
+                    <li><a href="books.html?category=Non-Fiction">Non-Fiction</a></li>
+                    <li><a href="books.html?category=Science">Science</a></li>
+                    <li><a href="books.html?category=History">History</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Bookie. All rights reserved. Built with ❤️ for book lovers.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/books-api.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <!-- Page Script -->
+    <script>
+        // Load categories
+        function loadCategories() {
+            const container = document.getElementById('categories-container');
+            container.innerHTML = BOOK_CATEGORIES.map(category => `
+                <div class="category-chip" onclick="window.location.href='books.html?category=${encodeURIComponent(category)}'">
+                    ${category}
+                </div>
+            `).join('');
+        }
+
+        // Load featured books
+        async function loadFeaturedBooks() {
+            const container = document.getElementById('featured-books');
+            
+            try {
+                const books = await getFeaturedBooks();
+                
+                if (books.length === 0) {
+                    container.innerHTML = '<p class="loading">No books found</p>';
+                    return;
+                }
+                
+                container.innerHTML = books.slice(0, 8).map(book => createBookCard(book)).join('');
+            } catch (error) {
+                console.error('Error loading featured books:', error);
+                container.innerHTML = '<p class="loading">Failed to load books</p>';
+            }
+        }
+
+        // Load new arrivals
+        async function loadNewArrivals() {
+            const container = document.getElementById('new-arrivals');
+            
+            try {
+                const result = await searchBooks('new releases 2024');
+                const books = result.books;
+                
+                if (books.length === 0) {
+                    container.innerHTML = '<p class="loading">No books found</p>';
+                    return;
+                }
+                
+                container.innerHTML = books.slice(0, 8).map(book => createBookCard(book)).join('');
+            } catch (error) {
+                console.error('Error loading new arrivals:', error);
+                container.innerHTML = '<p class="loading">Failed to load books</p>';
+            }
+        }
+
+        // Create book card HTML
+        function createBookCard(book) {
+            return `
+                <div class="book-card" onclick="window.location.href='book-detail.html?id=${book.id}'">
+                    <img src="${book.thumbnail}" alt="${book.title}" class="book-cover" onerror="this.onerror=null; this.src='https://placehold.co/300x450/2563EB/FFFFFF?text=No+Cover'">
+                    <div class="book-info">
+                        <h3 class="book-title">${truncateText(book.title, 50)}</h3>
+                        <p class="book-author">${book.author}</p>
+                        <div class="book-footer">
+                            <span class="book-price">${formatPrice(book.price)}</span>
+                            <button class="add-to-cart-btn" onclick="event.stopPropagation(); handleAddToCart('${book.id}')">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Handle add to cart
+        async function handleAddToCart(bookId) {
+            try {
+                const book = await getBookById(bookId);
+                if (book) {
+                    await addToCart(book);
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+            }
+        }
+
+        // Perform search
+        function performSearch() {
+            const query = document.getElementById('main-search').value.trim();
+            if (query) {
+                window.location.href = `books.html?search=${encodeURIComponent(query)}`;
+            }
+        }
+
+        // Handle Enter key in search
+        document.getElementById('main-search')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Scroll to section
+        function scrollToSection(id) {
+            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCategories();
+            loadFeaturedBooks();
+            loadNewArrivals();
+        });
+    </script>
+</body>
+</html>

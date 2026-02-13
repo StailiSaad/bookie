@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details | Bookie</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <p>📚 Free shipping on orders over $50 | 🎉 New arrivals every week</p>
+        </div>
+        
+        <div class="header-main">
+            <div class="header-container">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">📖</span>
+                    <span>Bookie</span>
+                </a>
+                
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="main-search" 
+                        placeholder="Search for books, authors, ISBN..."
+                        autocomplete="off"
+                    >
+                    <button class="search-btn" onclick="performSearch()" title="Search">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="header-btn" id="auth-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>Login</span>
+                    </button>
+                    
+                    <button class="header-btn cart-icon" onclick="window.location.href='cart.html'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Cart</span>
+                        <span id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="nav">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="books.html" class="nav-link">Browse Books</a></li>
+                    <li><a href="books.html?category=Fiction" class="nav-link">Fiction</a></li>
+                    <li><a href="books.html?category=Non-Fiction" class="nav-link">Non-Fiction</a></li>
+                    <li><a href="books.html?category=Science" class="nav-link">Science</a></li>
+                    <li><a href="admin.html" class="nav-link" id="admin-link" style="display: none;">Admin</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Book Detail -->
+    <div class="book-detail-container">
+        <div class="book-detail-layout">
+            <div>
+                <img id="book-image" class="book-detail-image" src="" alt="" onerror="this.onerror=null; this.src='https://placehold.co/400x600/2563EB/FFFFFF?text=No+Cover'">
+            </div>
+            <div class="book-detail-info">
+                <h1 id="book-title"></h1>
+                <p class="book-detail-author" id="book-author"></p>
+                <div class="book-detail-price" id="book-price"></div>
+                <p class="book-detail-description" id="book-description"></p>
+                
+                <div class="book-detail-meta" id="book-meta"></div>
+                
+                <div class="book-actions">
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn" onclick="changeQty(-1)">-</button>
+                        <span class="quantity-value" id="quantity">1</span>
+                        <button class="quantity-btn" onclick="changeQty(1)">+</button>
+                    </div>
+                    <button class="btn btn-primary btn-lg" onclick="addToCartFromDetail()">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Bookie</h3>
+                <p>Your trusted online bookstore for discovering and purchasing books across all genres.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="books.html">Browse Books</a></li>
+                    <li><a href="cart.html">Shopping Cart</a></li>
+                    <li><a href="auth.html">My Account</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li><a href="books.html?category=Fiction">Fiction</a></li>
+                    <li><a href="books.html?category=Non-Fiction">Non-Fiction</a></li>
+                    <li><a href="books.html?category=Science">Science</a></li>
+                    <li><a href="books.html?category=History">History</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Bookie. All rights reserved. Built with ❤️ for book lovers.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/books-api.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        let currentBook = null;
+        let quantity = 1;
+        
+        function performSearch() {
+            const query = document.getElementById('main-search').value.trim();
+            if (query) {
+                window.location.href = `books.html?search=${encodeURIComponent(query)}`;
+            }
+        }
+        
+        document.getElementById('main-search').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+        
+        async function loadBookDetail() {
+            const params = new URLSearchParams(window.location.search);
+            const bookId = params.get('id');
+            
+            if (!bookId) {
+                window.location.href = 'books.html';
+                return;
+            }
+            
+            currentBook = await getBookById(bookId);
+            
+            if (!currentBook) {
+                alert('Book not found');
+                window.location.href = 'books.html';
+                return;
+            }
+            
+            document.getElementById('book-image').src = currentBook.thumbnail;
+            document.getElementById('book-title').textContent = currentBook.title;
+            document.getElementById('book-author').textContent = 'by ' + currentBook.authors.join(', ');
+            document.getElementById('book-price').textContent = formatPrice(currentBook.price);
+            document.getElementById('book-description').textContent = currentBook.description;
+            
+            document.getElementById('book-meta').innerHTML = `
+                <div class="meta-item"><span class="meta-label">Publisher</span><span class="meta-value">${currentBook.publisher}</span></div>
+                <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">${currentBook.publishedDate}</span></div>
+                <div class="meta-item"><span class="meta-label">Pages</span><span class="meta-value">${currentBook.pageCount}</span></div>
+                <div class="meta-item"><span class="meta-label">Language</span><span class="meta-value">${currentBook.language.toUpperCase()}</span></div>
+            `;
+            
+            document.title = currentBook.title + ' | Bookie';
+        }
+        
+        function changeQty(delta) {
+            quantity = Math.max(1, quantity + delta);
+            document.getElementById('quantity').textContent = quantity;
+        }
+        
+        async function addToCartFromDetail() {
+            if (currentBook) {
+                await addToCart(currentBook, quantity);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadBookDetail);
+    </script>
+</body>
+</html>

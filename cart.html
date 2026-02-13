@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | Bookie</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <p>📚 Free shipping on orders over $50 | 🎉 New arrivals every week</p>
+        </div>
+        
+        <div class="header-main">
+            <div class="header-container">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">📖</span>
+                    <span>Bookie</span>
+                </a>
+                
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="main-search" placeholder="Search for books...">
+                    <button class="search-btn" onclick="performSearch()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="header-btn" id="auth-button" onclick="window.location.href='auth.html'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>Login</span>
+                    </button>
+                    
+                    <button class="header-btn cart-icon" onclick="window.location.href='cart.html'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Cart</span>
+                        <span id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="nav">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="books.html" class="nav-link">Browse Books</a></li>
+                    <li><a href="books.html?category=Fiction" class="nav-link">Fiction</a></li>
+                    <li><a href="books.html?category=Non-Fiction" class="nav-link">Non-Fiction</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Cart Page -->
+    <div class="cart-page">
+        <div class="cart-page-container">
+            <h1 class="page-title">Shopping Cart</h1>
+            
+            <div class="cart-layout">
+                <div class="cart-items-section">
+                    <div id="cart-items-container"></div>
+                </div>
+                
+                <div class="cart-summary-section">
+                    <div class="cart-summary">
+                        <h2>Order Summary</h2>
+                        
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="shipping">$0.00</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Tax (10%)</span>
+                            <span id="tax">$0.00</span>
+                        </div>
+                        
+                        <div class="summary-divider"></div>
+                        
+                        <div class="summary-row summary-total">
+                            <span>Total</span>
+                            <span id="total">$0.00</span>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-lg btn-block" onclick="proceedToCheckout()">
+                            Proceed to Checkout
+                        </button>
+                        
+                        <a href="books.html" class="continue-shopping">
+                            ← Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Bookie</h3>
+                <p>Your trusted online bookstore.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="books.html">Browse Books</a></li>
+                    <li><a href="cart.html">Shopping Cart</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Bookie. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/books-api.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        function performSearch() {
+            const query = document.getElementById('main-search').value.trim();
+            if (query) {
+                window.location.href = 'books.html?search=' + encodeURIComponent(query);
+            }
+        }
+        
+        document.getElementById('main-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+        
+        function renderCartPage() {
+            const container = document.getElementById('cart-items-container');
+            const cart = getCart();
+            
+            if (cart.items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <h2>Your cart is empty</h2>
+                        <p>Add some books to get started!</p>
+                        <a href="books.html" class="btn btn-primary">Browse Books</a>
+                    </div>
+                `;
+                updateSummary(0, 0, 0, 0);
+                return;
+            }
+            
+            container.innerHTML = cart.items.map(item => `
+                <div class="cart-item">
+                    <img src="${item.thumbnail}" alt="${item.title}" class="cart-item-image" onerror="this.src='https://placehold.co/150x225/2563EB/FFFFFF?text=No+Cover'">
+                    <div class="cart-item-details">
+                        <h3 class="cart-item-title">${item.title}</h3>
+                        <p class="cart-item-author">${item.author || item.authors?.join(', ') || 'Unknown'}</p>
+                        <p class="cart-item-price">${formatPrice(item.price)}</p>
+                    </div>
+                    <div class="cart-item-actions">
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn" onclick="updateItemQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                            <span class="quantity-value">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateItemQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                        </div>
+                        <button class="btn-remove" onclick="removeItem('${item.id}')">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal >= 50 ? 0 : 5.99;
+            const tax = subtotal * 0.1;
+            const total = subtotal + shipping + tax;
+            
+            updateSummary(subtotal, shipping, tax, total);
+        }
+        
+        function updateSummary(subtotal, shipping, tax, total) {
+            document.getElementById('subtotal').textContent = formatPrice(subtotal);
+            document.getElementById('shipping').textContent = shipping === 0 ? 'FREE' : formatPrice(shipping);
+            document.getElementById('tax').textContent = formatPrice(tax);
+            document.getElementById('total').textContent = formatPrice(total);
+        }
+        
+        function updateItemQuantity(bookId, newQuantity) {
+            if (newQuantity < 1) {
+                removeItem(bookId);
+            } else {
+                updateCartQuantity(bookId, newQuantity);
+                renderCartPage();
+            }
+        }
+        
+        function removeItem(bookId) {
+            removeFromCart(bookId);
+            renderCartPage();
+        }
+        
+        function proceedToCheckout() {
+            window.location.href = 'checkout.html';
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCartPage();
+            updateCartCountDisplay();
+        });
+    </script>
+</body>
+</html>

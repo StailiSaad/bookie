@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Bookie</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Stripe JS -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <p>📚 Free shipping on orders over $50 | 🎉 New arrivals every week</p>
+        </div>
+        
+        <div class="header-main">
+            <div class="header-container">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">📖</span>
+                    <span>Bookie</span>
+                </a>
+                
+                <div class="header-actions">
+                    <button class="header-btn cart-icon" onclick="window.location.href='cart.html'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Cart</span>
+                        <span id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Checkout Page -->
+    <div class="checkout-page">
+        <div class="checkout-container">
+            <h1 class="page-title">Secure Checkout</h1>
+            
+            <div class="checkout-layout">
+                <div class="checkout-form-section">
+                    <form id="checkout-form">
+                        <!-- DEMO WARNING -->
+                        <div class="demo-warning">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            <div>
+                                <strong>⚠️ DEMO WEBSITE</strong><br>
+                                Please do NOT make real purchases. This is a demo with test payment methods only. No products will be delivered!
+                            </div>
+                        </div>
+                        
+                        <!-- Shipping Information -->
+                        <div class="form-section">
+                            <h2>📍 Shipping Information</h2>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name *</label>
+                                    <input type="text" id="firstName" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="lastName">Last Name *</label>
+                                    <input type="text" id="lastName" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="address">Street Address *</label>
+                                <input type="text" id="address" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">City *</label>
+                                    <input type="text" id="city" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="state">State/Province *</label>
+                                    <input type="text" id="state" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="zipCode">ZIP/Postal Code *</label>
+                                    <input type="text" id="zipCode" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="country">Country *</label>
+                                    <select id="country" required>
+                                        <option value="">Select Country</option>
+                                        <option value="US">United States</option>
+                                        <option value="UK">United Kingdom</option>
+                                        <option value="MA">Morocco</option>
+                                        <option value="AE">UAE</option>
+                                        <option value="SA">Saudi Arabia</option>
+                                        <option value="OTHER">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Method -->
+                        <div class="form-section">
+                            <h2>💳 Payment Method</h2>
+                            
+                            <!-- Payment Methods Tabs -->
+                            <div class="payment-tabs">
+                                <label class="payment-tab active" data-method="card">
+                                    <input type="radio" name="paymentMethod" value="card" checked>
+                                    <span class="tab-icon">💳</span>
+                                    <span class="tab-text">Credit Card</span>
+                                </label>
+                                <label class="payment-tab" data-method="paypal">
+                                    <input type="radio" name="paymentMethod" value="paypal">
+                                    <span class="tab-icon">🅿️</span>
+                                    <span class="tab-text">PayPal</span>
+                                </label>
+                                <label class="payment-tab" data-method="cod">
+                                    <input type="radio" name="paymentMethod" value="cod">
+                                    <span class="tab-icon">📦</span>
+                                    <span class="tab-text">Cash on Delivery</span>
+                                </label>
+                            </div>
+                            
+                            <!-- Card Payment -->
+                            <div class="payment-content" id="payment-card">
+                                <div class="card-brands">
+                                    <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/flags/1x1/us.svg" alt="Visa" style="height:20px;opacity:0">
+                                    <span class="brand-badge">💳 Visa</span>
+                                    <span class="brand-badge">💳 Mastercard</span>
+                                    <span class="brand-badge">💳 Amex</span>
+                                    <span class="brand-badge">💳 Discover</span>
+                                </div>
+                                
+                                <div class="stripe-element-wrapper">
+                                    <label>Card Information</label>
+                                    <div id="card-element"></div>
+                                    <div id="card-errors" class="card-error" role="alert"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="cardName">Name on Card *</label>
+                                    <input type="text" id="cardName" placeholder="John Doe" required>
+                                </div>
+                                
+                                <div class="security-badges">
+                                    <span>🔒 256-bit SSL Encrypted</span>
+                                    <span>✓ PCI DSS Compliant</span>
+                                </div>
+                            </div>
+                            
+                            <!-- PayPal -->
+                            <div class="payment-content" id="payment-paypal" style="display:none;">
+                                <div class="paypal-info">
+                                    <p>You will be redirected to PayPal to complete your payment securely.</p>
+                                    <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="PayPal" style="max-width:150px">
+                                </div>
+                            </div>
+                            
+                            <!-- COD -->
+                            <div class="payment-content" id="payment-cod" style="display:none;">
+                                <div class="cod-info">
+                                    <p>📦 Pay with cash when your order is delivered to your doorstep.</p>
+                                    <ul>
+                                        <li>✓ No advance payment required</li>
+                                        <li>✓ Inspect before paying</li>
+                                        <li>✓ Available for orders up to $500</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit-btn">
+                            <span id="btn-text">Pay <span id="pay-amount">$0.00</span></span>
+                            <span id="btn-spinner" class="spinner" style="display:none;"></span>
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="checkout-summary-section">
+                    <div class="checkout-summary">
+                        <h2>📚 Order Summary</h2>
+                        
+                        <div id="order-items" class="order-items"></div>
+                        
+                        <div class="summary-divider"></div>
+                        
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="shipping">$0.00</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Tax (10%)</span>
+                            <span id="tax">$0.00</span>
+                        </div>
+                        
+                        <div class="summary-divider"></div>
+                        
+                        <div class="summary-row summary-total">
+                            <span>Total</span>
+                            <span id="total">$0.00</span>
+                        </div>
+                        
+                        <div class="trust-badges">
+                            <div class="trust-badge">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                                <span>Secure Checkout</span>
+                            </div>
+                            <div class="trust-badge">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="3" width="15" height="13"/>
+                                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                                    <circle cx="5.5" cy="18.5" r="2.5"/>
+                                    <circle cx="18.5" cy="18.5" r="2.5"/>
+                                </svg>
+                                <span>Free Shipping $50+</span>
+                            </div>
+                            <div class="trust-badge">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23 4 23 10 17 10"/>
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                                </svg>
+                                <span>Easy Returns</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Bookie</h3>
+                <p>Your trusted online bookstore.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Bookie. Demo Website.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/books-api.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        // Stripe Configuration
+        // Replace with your Stripe publishable key for real payments
+        const STRIPE_KEY = 'pk_test_51234567890abcdefghijklmnop'; // Demo key
+        
+        let stripe, cardElement;
+        
+        // Initialize Stripe
+        function initStripe() {
+            try {
+                stripe = Stripe(STRIPE_KEY);
+                const elements = stripe.elements();
+                
+                cardElement = elements.create('card', {
+                    style: {
+                        base: {
+                            fontSize: '16px',
+                            color: '#111827',
+                            fontFamily: 'Inter, system-ui, sans-serif',
+                            '::placeholder': { color: '#9CA3AF' }
+                        },
+                        invalid: { color: '#EF4444' }
+                    }
+                });
+                
+                const cardContainer = document.getElementById('card-element');
+                if (cardContainer) {
+                    cardElement.mount('#card-element');
+                    
+                    cardElement.on('change', function(event) {
+                        const errorEl = document.getElementById('card-errors');
+                        errorEl.textContent = event.error ? event.error.message : '';
+                    });
+                }
+            } catch (e) {
+                console.log('Stripe demo mode - no real payments');
+            }
+        }
+        
+        // Payment method tabs
+        document.querySelectorAll('.payment-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.payment-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                const method = this.dataset.method;
+                document.querySelectorAll('.payment-content').forEach(c => c.style.display = 'none');
+                document.getElementById('payment-' + method).style.display = 'block';
+            });
+        });
+        
+        // Load order items
+        function loadOrderItems() {
+            const cart = getCart();
+            const container = document.getElementById('order-items');
+            
+            if (cart.items.length === 0) {
+                window.location.href = 'cart.html';
+                return;
+            }
+            
+            container.innerHTML = cart.items.map(item => `
+                <div class="order-item">
+                    <img src="${item.thumbnail}" alt="${item.title}" onerror="this.src='https://placehold.co/80x120/2563EB/FFFFFF?text=No+Cover'">
+                    <div class="order-item-info">
+                        <p class="order-item-title">${item.title}</p>
+                        <p class="order-item-qty">Qty: ${item.quantity}</p>
+                    </div>
+                    <p class="order-item-price">${formatPrice(item.price * item.quantity)}</p>
+                </div>
+            `).join('');
+            
+            const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal >= 50 ? 0 : 5.99;
+            const tax = subtotal * 0.1;
+            const total = subtotal + shipping + tax;
+            
+            document.getElementById('subtotal').textContent = formatPrice(subtotal);
+            document.getElementById('shipping').textContent = shipping === 0 ? 'FREE' : formatPrice(shipping);
+            document.getElementById('tax').textContent = formatPrice(tax);
+            document.getElementById('total').textContent = formatPrice(total);
+            document.getElementById('pay-amount').textContent = formatPrice(total);
+        }
+        
+        // Handle form submission
+        document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
+            const btnSpinner = document.getElementById('btn-spinner');
+            
+            btn.disabled = true;
+            btnText.style.display = 'none';
+            btnSpinner.style.display = 'inline-block';
+            
+            // Get form data
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            
+            // Simulate payment processing
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Create order
+            const cart = getCart();
+            const subtotal = cart.items.reduce((s, i) => s + i.price * i.quantity, 0);
+            const shipping = subtotal >= 50 ? 0 : 5.99;
+            const tax = subtotal * 0.1;
+            const total = subtotal + shipping + tax;
+            
+            const orderId = 'BOOKIE-' + Date.now();
+            
+            // Save order
+            const orders = JSON.parse(localStorage.getItem('bookie_orders') || '[]');
+            orders.push({
+                id: orderId,
+                items: cart.items,
+                shippingInfo: { firstName, lastName, email },
+                paymentMethod: paymentMethod,
+                subtotal, shipping, tax, total,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            });
+            localStorage.setItem('bookie_orders', JSON.stringify(orders));
+            
+            // Clear cart
+            clearCart();
+            
+            alert('✅ Order placed successfully!\n\nOrder ID: ' + orderId + '\n\nThis is a DEMO - no real payment was processed.');
+            window.location.href = 'order-success.html?orderId=' + orderId;
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderItems();
+            initStripe();
+            updateCartCountDisplay();
+        });
+    </script>
+</body>
+</html>
