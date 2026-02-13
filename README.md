@@ -39,6 +39,23 @@ The payment methods shown are for demonstration purposes only. We are not respon
 | Database | Google Books API, localStorage |
 | Hosting | Any static hosting (Netlify, Vercel, GitHub Pages) |
 
+## 👑 Admin Panel
+
+The website includes a powerful admin dashboard for managing orders:
+
+### Features:
+- 📊 **Dashboard** - View total orders, pending orders, revenue stats
+- 📋 **Order Management** - View all customer orders
+- 🔄 **Status Updates** - Change order status (Pending → Processing → Shipped → Delivered)
+- 👤 **Customer Info** - View shipping details and contact info
+
+### How to Access:
+1. Sign up/login with Google or Email
+2. Go to Firebase Console → Firestore Database → users collection
+3. Find your user document
+4. Change the `role` field from `"customer"` to `"admin"`
+5. Refresh the page - you'll see "Admin" link in navigation
+
 ## 📁 Project Structure
 
 ```

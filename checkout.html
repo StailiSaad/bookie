@@ -285,8 +285,40 @@
     <!-- Scripts -->
     <script src="js/books-api.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/firebase-config.js"></script>
     
     <script>
+        // Check if user is logged in
+        let isLoggedIn = false;
+        let currentUser = null;
+        
+        // Listen for auth state
+        firebase.auth().onAuthStateChanged(function(user) {
+            currentUser = user;
+            isLoggedIn = !!user;
+            
+            if (!isLoggedIn) {
+                // Not logged in, redirect to login
+                const notLoggedInDiv = document.createElement('div');
+                notLoggedInDiv.id = 'not-logged-in';
+                notLoggedInDiv.innerHTML = `
+                    <div class="login-required">
+                        <div class="login-required-content">
+                            <div class="login-icon">🔐</div>
+                            <h2>Login Required</h2>
+                            <p>Please login or create an account to complete your purchase.</p>
+                            <div class="login-buttons">
+                                <a href="auth.html?redirect=checkout.html" class="btn btn-primary">Login</a>
+                                <a href="auth.html?redirect=checkout.html&mode=signup" class="btn btn-secondary">Create Account</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(notLoggedInDiv);
+                document.querySelector('.checkout-page').style.display = 'none';
+            }
+        });
+        
         // Stripe Configuration
         // Replace with your Stripe publishable key for real payments
         const STRIPE_KEY = 'pk_test_51234567890abcdefghijklmnop'; // Demo key
