@@ -4,6 +4,10 @@ A fully functional e-commerce website for buying books online. Built with modern
 
 ![Bookie](https://via.placeholder.com/800x400/2563EB/FFFFFF?text=Bookie)
 
+## 🌐 Live Website
+
+**Visit**: https://bookie-7wq.pages.dev/
+
 ## ⚠️ DEMO WEBSITE NOTICE
 
 **This is a DEMO website for educational and demonstration purposes only.**
